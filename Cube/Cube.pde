@@ -2,10 +2,16 @@ PImage tblock;
 PImage map;
 float rotx, roty;
 int blockSize = 20;
-float lx = 0, ly = -10, lz = 1000;
+int ground = 800;
+float lx = 1000, ly = ground - 60, lz = 1000;
+float angle = 0;
+PVector direction = new PVector(0, -1);
+PVector strafeDir = new PVector(0, 0);
+PVector velocity = new PVector(0, -1);
+PVector acceleration = new PVector(0, 1);
 color black = #000000;
 color white = #FFFFFF;
-boolean up, down, left, right;
+boolean up, down, left, right, jump;
 
 
 void setup() {
@@ -13,40 +19,64 @@ void setup() {
   tblock = loadImage("Todoroki.jpg");
   map = loadImage("map.png");
   textureMode(NORMAL);
+  velocity.setMag(30);
+  
 }
 
 void draw() {
   background(255);
   pushMatrix();
-  //rotateX(rotx);
-  //rotateY(roty);
   drawMap();
   drawGround();
   popMatrix();
-  camera(lx, ly, lz, lx, ly, lz-1, 0, 1, 0);
-  if (up) lz = lz - 10;
-  if (down) lz = lz + 10;
-  if (left) lx = lx - 10;
-  if (right) lx = lx + 10;
+  camera(lx, ly, lz, direction.x + lx, ly, direction.y + lz, 0, 1, 0);
+  direction.rotate(angle);
+  angle = (pmouseX - mouseX)*.005;
+  strafeDir = direction.copy();
+  strafeDir.rotate(PI/2);
+  if (up) {
+    lz = lz + direction.y;
+    lx = lx + direction.x;
+  }
+  if (down) {
+    lz = lz - direction.y;
+    lx = lx - direction.x;
+  }
+  if (left) {
+    lx = lx - strafeDir.x;
+    lz = lz - strafeDir.y;
+  }
+  if (right) {
+    lx = lx + strafeDir.x;
+    lz = lz + strafeDir.y;
+  }
+  if (jump) {
+   ly = ly + velocity.y; 
+   velocity.y = velocity.y + acceleration.y; 
+  } 
+                        
+  if (ly >= ground - 60) {
+   ly = ground - 60; 
+  }
+  
+  println(velocity.y);
+  direction.setMag(10);
+  
 }
 
 void drawGround() {
-  //pushMatrix();
-  //rotateX(rotx);
-  //rotateY(roty);
   stroke(0);
   strokeWeight(1);
   int x = -1000 + blockSize;
-  while (x < 2000) {
+  while (x < 1600) {
     x = x + blockSize*2; 
-    line(x, height/2 + blockSize, -1000, x, height/2 + blockSize, 2000);
+    line(x, ground, -1000, x, ground, 1650);
   }
   int z = -1000 + blockSize;
-  while (z < 2000) {
+  while (z < 1600) {
     z = z + blockSize*2; 
-    line(-1000, height/2 + blockSize, z, 2000, height/2 + blockSize, z);
+    line(-1000, ground, z, 1650, ground, z);
   }
-  //popMatrix();
 }
 
 void drawMap() {
@@ -55,7 +85,7 @@ void drawMap() {
   //rotateY(roty);
 
   int mapX = 0, mapY = 0;
-  int worldX = 0, worldY = height/2, worldZ = 0;
+  int worldX = 0, worldY = ground - blockSize, worldZ = 0;
   while (mapY < map.height) {
     color pixel = map.get(mapX, mapY);
     if (pixel == black) {
@@ -123,20 +153,22 @@ void texturedBox(PImage top, PImage side, PImage bottom, float x, float y, float
 }
 
 void keyPressed() {
-  if (keyCode == UP) up = true;
-  if (keyCode == DOWN) down = true;
-  if (keyCode == LEFT) left = true;
-  if (keyCode == RIGHT) right = true;
+  if (keyCode == UP || key == 'w') up = true;
+  if (keyCode == DOWN || key == 's') down = true;
+  if (keyCode == LEFT || key == 'a') left = true;
+  if (keyCode == RIGHT || key == 'd') right = true;
+  if (key == ' ') jump = true;
 }
 
 void keyReleased() {
-  if (keyCode == UP) up = false;
-  if (keyCode == DOWN) down = false;
-  if (keyCode == LEFT) left = false;
-  if (keyCode == RIGHT) right = false;
+  if (keyCode == UP || key == 'w') up = false;
+  if (keyCode == DOWN || key == 's') down = false;
+  if (keyCode == LEFT || key == 'a') left = false;
+  if (keyCode == RIGHT || key == 'd') right = false;
+  if (key == ' ') jump = false;
 }
 
 void mouseDragged() {
   rotx = rotx + (pmouseY - mouseY)*.01;
-  roty = roty - (pmouseX - mouseX)*.01;
+ 
 }
