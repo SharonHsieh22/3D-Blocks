@@ -6,7 +6,6 @@ import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
 
 Minim minim;
-AudioPlayer rainaudio;
 
 PImage tblock;
 PImage map;
@@ -47,7 +46,7 @@ void setup() {
   sky = loadImage("sky.jpg");
   raindrops = new ArrayList<Raindrops>();
   minim = new Minim(this);
-  rainaudio = minim.loadFile("rain.mp3");
+
 }
 
 void draw() {
@@ -56,12 +55,11 @@ void draw() {
   drawMap();
   drawGround();
   popMatrix();
-  rainaudio.play();
-
 
   camera(lx, directionY.x + ly, lz, directionX.x + lx, directionY.y + ly, directionX.y + lz, 0, 1, 0);
 
   move(); 
+  planet();
   println(velocity.y);
 
   int i = 0;
