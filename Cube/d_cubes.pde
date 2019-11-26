@@ -1,4 +1,13 @@
-void texturedBox(PImage top, PImage side, PImage bottom, float x, float y, float z, float size) {
+void texturedBox(color pixel, float x, float y, float z, float size) {
+  if (dist(lx, lz, x, z) <= blockSize*5 && velocity.y > 27) {
+    ly = y - blockSize*8;
+    velocity.y = -30;
+    jump = false;
+  } else if (ly > elevation - blockSize*3 && dist(lx, lz, x, z) <= blockSize*5) {     
+    lx = lx + directionX.x*blockSize*-.4;
+    lz = lz + directionX.y*blockSize*-.4;  
+  }
+    
   pushMatrix();
   translate(x, y, z);
   scale(size);
@@ -6,7 +15,7 @@ void texturedBox(PImage top, PImage side, PImage bottom, float x, float y, float
 
   //front face
   beginShape(QUADS);
-  texture(side); 
+  fill(0); 
   vertex(-1, -1, 1, 0, 0);
   vertex( 1, -1, 1, 1, 0);
   vertex( 1, 1, 1, 1, 1);
@@ -30,7 +39,7 @@ void texturedBox(PImage top, PImage side, PImage bottom, float x, float y, float
 
   //top face 
   beginShape(QUADS);
-  texture(top);
+  fill(pixel);
   vertex(-1, -1, 1, 0, 1);
   vertex(-1, -1, -1, 0, 0);
   vertex( 1, -1, -1, 1, 0);
@@ -39,7 +48,7 @@ void texturedBox(PImage top, PImage side, PImage bottom, float x, float y, float
 
   //bottom face
   beginShape(QUADS);
-  texture(bottom);
+  fill(pixel);
   vertex(-1, 1, 1, 0, 0);
   vertex( 1, 1, 1, 1, 0);
   vertex( 1, 1, -1, 1, 1);
