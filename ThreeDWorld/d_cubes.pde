@@ -1,13 +1,4 @@
 void texturedBox(color pixel, float x, float y, float z, float size) {
-  //if (dist(lx, lz, x, z) <= blockSize*5 && velocity.y > 27) {
-  //  ly = y - blockSize*8;
-  //  velocity.y = -30;
-  //  jump = false;
-  //} else if (ly > elevation - blockSize*3 && dist(lx, lz, x, z) <= blockSize*5) {     
-  //  lx = lx + directionX.x*blockSize*-.4;
-  //  lz = lz + directionX.y*blockSize*-.4;  
-  //}
-  
    if (dist(lx, lz, x, z) <= blockSize*5) {
      if(velocity.y > 27) {
     ly = y - blockSize*8;

@@ -1,10 +1,9 @@
 void planet() {
   pushMatrix();
   fill(#29DDFF);
-  lightSpecular(255, 255, 255);
-  pointLight(200, 200, 200, 2000, 0, 200);
-  spotLight(51, 102, 126, 80, 20, 40, 0, 0, -1, PI/2, 2);
-  specular(230, 180, 120);
+  pointLight(200, 200, 200, 2000, 0, 0);
+  ambientLight(70, 70, 70);
+  specular(160, 180, 220);
   translate(2000, 500, 2100);
   
   noStroke();

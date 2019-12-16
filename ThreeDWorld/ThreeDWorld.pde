@@ -1,4 +1,3 @@
-
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
@@ -18,7 +17,7 @@ float rotx, roty;
 int blockSize = 20;
 int ground = 1000;
 int rainTimer;
-int lightTimer;
+int starTimer;
 float elevation = ground - blockSize*6;
 float lx = 500, ly = elevation, lz = 500;
 float angleX = 0;
@@ -85,6 +84,12 @@ void draw() {
     weather.add(new Rain());
     }
     rainTimer = 0;
+  }
+  
+  starTimer++;
+  if (starTimer >= 100) {
+    weather.add(new Star(random(0, 4000), random(0, 4000)));
+    starTimer = 0;
   }
 }
 
