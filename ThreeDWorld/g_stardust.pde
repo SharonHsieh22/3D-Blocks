@@ -28,13 +28,13 @@ float alpha;
     velocity.add(acceleration);
     timer++;
     alpha = alpha  - 3;
-    if(timer > 50) {
+    if(timer > 50 || alpha == 0) {
       lives = 0;
     }
+   
     if(location.x > 3500 || location.z > 3500 || location.y > ground) {
       lives = 0; 
-    }
-    
+    }    
 
   }
 }

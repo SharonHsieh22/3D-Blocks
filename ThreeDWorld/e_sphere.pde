@@ -17,7 +17,7 @@ void planet() {
   strokeWeight(4);
   rotateX(rotx - PI*.2);
   rotateY(roty - PI);
-  ellipse(0, 0, 500, 500);
+  ellipse(0, 0, 400, 400);
   rotx = rotx + .01;
   roty = roty + .01;
   popMatrix();  

@@ -87,7 +87,7 @@ void draw() {
   }
   
   starTimer++;
-  if (starTimer >= 100) {
+  if (starTimer >= 200) {
     weather.add(new Star(random(0, 4000), random(0, 4000)));
     starTimer = 0;
   }
